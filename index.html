@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDoList App</title>
+    <style>
+        /* CSS styles for the app */
+        .container {
+          max-width: 400px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+        .item {
+          margin-bottom: 10px;
+        }
+        .item input[type="checkbox"] {
+          margin-right: 10px;
+        }
+        .item span {
+          text-decoration: none;
+        }
+        .item.completed span {
+          text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>ToDoList App</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+    <div id="taskList"></div>
+</div>
+
+<script>
+    // JavaScript code for the app
+    let tasks = [];
+
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const task = taskInput.value.trim();
+      if (task !== '') {
+        tasks.push(task);
+        taskInput.value = '';
+        renderTasks();
+      }
+    }
+
+    function removeTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const item = document.createElement('div');
+        item.classList.add('item');
+        if (index % 2 === 0) {
+          item.classList.add('even');
+        }
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', () => {
+          item.classList.toggle('completed');
+        });
+        const span = document.createElement('span');
+        span.textContent = task;
+        const button = document.createElement('button');
+        button.textContent = 'Remove';
+        button.addEventListener('click', () => {
+          removeTask(index);
+        });
+        item.appendChild(checkbox);
+        item.appendChild(span);
+        item.appendChild(button);
+        taskList.appendChild(item);
+      });
+    }
+</script>
+</body>
+</html>
